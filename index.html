@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -30,6 +29,7 @@
             }
         }
     </script>
+    
     <style>
         /* Custom styles for minor tweaks and animations */
         body { font-family: 'Inter', sans-serif; }
@@ -210,9 +210,11 @@
             </div>
 
             <!-- Video Player Mockup -->
-            <div class="relative mx-auto rounded-3xl overflow-hidden shadow-2xl border border-gray-700 bg-gray-800 aspect-video cursor-pointer group" onclick="document.getElementById('video-modal').classList.remove('hidden')">
-                <!-- Video Thumbnail -->
-                <img src="THE CPCC LOGO.png" alt="Video Ad Thumbnail" class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500">
+            <!-- Updated onclick to use the new JS function for autoplay control -->
+            <div class="relative mx-auto rounded-3xl overflow-hidden shadow-2xl border border-gray-700 bg-gray-800 aspect-video cursor-pointer group" onclick="openVideoModal()">
+                
+                <!-- Updated Video Thumbnail using the CPCC Logo -->
+                <img src="THE CPCC LOGO.png" alt="CPCC Logo Thumbnail" class="w-full h-full object-contain bg-white p-12 opacity-80 group-hover:opacity-100 transition-opacity duration-500">
                 
                 <!-- Play Button Overlay -->
                 <div class="absolute inset-0 flex items-center justify-center">
@@ -509,7 +511,8 @@
                         <h3 class="text-xl font-semibold mb-4 text-white">Join the ARCEN Pilot Program</h3>
                         <p class="text-purple-200 text-sm mb-6">Currently accepting trade partners in Pune, Bengaluru, and Ahmedabad.</p>
                         
-                        <form class="space-y-4" onsubmit="event.preventDefault(); alert('In a live environment, this would submit to the CRM.');">
+                        <!-- Fixed form to use console.log instead of alert to prevent UI issues -->
+                        <form class="space-y-4" onsubmit="event.preventDefault(); console.log('In a live environment, this would submit to the CRM.');">
                             <div>
                                 <label class="block text-sm font-medium text-purple-200 mb-1">Full Name</label>
                                 <input type="text" class="w-full px-4 py-2 bg-white/10 border border-purple-400/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-400" placeholder="John Doe">
@@ -532,7 +535,7 @@
                                     <option class="text-gray-900">Other</option>
                                 </select>
                             </div>
-                            <button type="button" class="w-full bg-purple-500 hover:bg-purple-400 text-white py-3 rounded-lg font-semibold transition-colors mt-2">
+                            <button type="submit" class="w-full bg-purple-500 hover:bg-purple-400 text-white py-3 rounded-lg font-semibold transition-colors mt-2">
                                 Register Interest
                             </button>
                         </form>
@@ -596,17 +599,34 @@
     </footer>
 
     <!-- Interactive Scripts -->
-    <!-- Video Modal -->
+    
+    <!-- Updated Video Modal structure for injected iframe -->
     <div id="video-modal" class="fixed inset-0 z-[100] hidden bg-black/90 flex items-center justify-center p-4">
-        <button onclick="document.getElementById('video-modal').classList.add('hidden')" class="absolute top-6 right-6 text-white hover:text-gray-300 focus:outline-none">
+        <!-- Close Button utilizing the new JS function -->
+        <button onclick="closeVideoModal()" class="absolute top-6 right-6 text-white hover:text-gray-300 focus:outline-none z-50">
             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         <div class="w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden border border-gray-700 relative flex items-center justify-center text-gray-500">
-            <div class="text-center">
-                <svg class="w-16 h-16 mx-auto mb-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                <p class="text-lg">TVC Video Player Sandbox</p>
-                <p class="text-sm">(<iframe title="vimeo-player" src="https://player.vimeo.com/video/1223077328?h=da6f8150fb" width="640" height="360" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"   allowfullscreen></iframe>)</p>
+            <div class="text-center w-full h-full flex items-center justify-center">
+                <!-- Iframe is empty initially to prevent background playing -->
+                <iframe id="vimeo-player" title="vimeo-player" src="" width="100%" height="100%" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" allowfullscreen class="absolute inset-0 w-full h-full"></iframe>
             </div>
+        </div>
+    </div>
+
+    <!-- Trade Modal (Mockup) -->
+    <div id="trade-modal" class="fixed inset-0 z-[100] hidden bg-black/90 flex items-center justify-center p-4">
+        <button onclick="document.getElementById('trade-modal').classList.add('hidden')" class="absolute top-6 right-6 text-white hover:text-gray-300 focus:outline-none">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="w-full max-w-md bg-white rounded-2xl p-8 relative">
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">Request Trade Kit</h3>
+            <p class="text-gray-600 mb-6">Enter your details to receive physical samples and trade pricing.</p>
+            <form onsubmit="event.preventDefault(); document.getElementById('trade-modal').classList.add('hidden'); console.log('Kit requested!');">
+                <input type="text" placeholder="Company Name" class="w-full px-4 py-3 border border-gray-200 rounded-lg mb-4 focus:ring-2 focus:ring-cpcc focus:border-cpcc outline-none">
+                <input type="email" placeholder="Work Email" class="w-full px-4 py-3 border border-gray-200 rounded-lg mb-6 focus:ring-2 focus:ring-cpcc focus:border-cpcc outline-none">
+                <button type="submit" class="w-full bg-cpcc text-white py-3 rounded-lg font-bold hover:bg-cpcc-dark transition-colors">Submit Request</button>
+            </form>
         </div>
     </div>
 
@@ -628,6 +648,19 @@
                 navbar.classList.remove('shadow-md');
             }
         });
+
+        // Video Modal Autoplay Handling
+        function openVideoModal() {
+            document.getElementById('video-modal').classList.remove('hidden');
+            // Injects the video URL with autoplay enabled when opened
+            document.getElementById('vimeo-player').src = "https://player.vimeo.com/video/1223077328?h=da6f8150fb&autoplay=1";
+        }
+
+        function closeVideoModal() {
+            document.getElementById('video-modal').classList.add('hidden');
+            // Clears the source to stop the video from playing in the background
+            document.getElementById('vimeo-player').src = "";
+        }
     </script>
 </body>
 </html>
